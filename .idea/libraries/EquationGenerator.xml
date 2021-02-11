@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="EquationGenerator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/EquationGenerator_jar/EquationGenerator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
