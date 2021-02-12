@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -17,26 +19,32 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane fx:id="pane" prefHeight="400.0" prefWidth="600.0">
+      <Pane fx:id="pane" prefHeight="409.0" prefWidth="600.0">
          <children>
-            <ComboBox fx:id="comboBox" layoutX="26.0" layoutY="32.0" prefHeight="25.0" prefWidth="232.0" />
-            <TextArea fx:id="textArea" editable="false" layoutX="26.0" layoutY="73.0" prefHeight="277.0" prefWidth="280.0" />
-            <Button fx:id="btnGenerate" layoutX="486.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Генерировать" />
-            <Label layoutX="26.0" layoutY="363.0" text="Кол-во примеров в варианте">
+            <ComboBox fx:id="comboBox" layoutX="17.0" layoutY="19.0" prefHeight="25.0" prefWidth="232.0" />
+            <TextArea fx:id="textArea" editable="false" layoutX="18.0" layoutY="57.0" prefHeight="277.0" prefWidth="288.0" />
+            <Button fx:id="btnGenerate" layoutX="455.0" layoutY="337.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="131.0" text="Генерировать" />
+            <Label layoutX="17.0" layoutY="341.0" text="Кол-во примеров:">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="countField" layoutX="225.0" layoutY="361.0" prefHeight="25.0" prefWidth="50.0" promptText="1" />
-            <Label layoutX="305.0" layoutY="363.0" text="Кол-во вариантов">
+            <TextField fx:id="countField" layoutX="148.0" layoutY="337.0" prefHeight="25.0" prefWidth="50.0" promptText="1" />
+            <Label layoutX="220.0" layoutY="341.0" text="Кол-во вариантов:">
                <font>
                   <Font name="Comic Sans MS" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="varField" layoutX="430.0" layoutY="361.0" prefHeight="25.0" prefWidth="50.0" promptText="1" />
-            <TextArea fx:id="textArea2" editable="false" layoutX="306.0" layoutY="73.0" prefHeight="277.0" prefWidth="280.0" />
-            <Button fx:id="btnSave" layoutX="486.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Сохранить" />
-            <TextField fx:id="fieldFile" layoutX="329.0" layoutY="32.0" promptText="Введите имя файла" />
+            <TextField fx:id="varField" layoutX="356.0" layoutY="337.0" prefHeight="25.0" prefWidth="50.0" promptText="1" />
+            <TextArea fx:id="textArea2" editable="false" layoutX="306.0" layoutY="57.0" prefHeight="277.0" prefWidth="274.0" />
+            <Button fx:id="btnSave" layoutX="486.0" layoutY="19.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Сохранить" />
+            <TextField fx:id="fieldFile" layoutX="306.0" layoutY="19.0" promptText="Введите имя файла" />
+            <Label fx:id="progressTxt" layoutX="17.0" layoutY="378.0" text="Прогрессии:" underline="true">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="progressInput" layoutX="119.0" layoutY="374.0" prefHeight="26.0" prefWidth="80.0" promptText="1" />
          </children>
       </Pane>
    </children>
