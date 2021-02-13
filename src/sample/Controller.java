@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Controller {
@@ -201,7 +202,7 @@ public class Controller {
             if (c > 0) signC = "+";
             else signC = " ";
             textArea.setText(textArea.getText() + counter + ") " + a + "x²" + signB + b + "x" + signC + c + "= 0" + "\n");
-            textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + "; X2=" + fx2 + "\n");
+            textArea2.setText(textArea2.getText() + counter + ") " + "x₁=" + fx1 + "; X₂=" + fx2 + "\n");
         } else {
             gen();
         }
@@ -338,7 +339,7 @@ public class Controller {
                     a1 += d;
                     result += a1;
                 }
-                textArea.setText(textArea.getText() + counter + ") " + "a1=" + a1 + ", d=" + d + "\n");
+                textArea.setText(textArea.getText() + counter + ") " + "a₁=" + a1 + ", d=" + d + "\n");
                 textArea2.setText(textArea2.getText() + counter + ") " + result + "\n");
             }
         }
@@ -382,17 +383,133 @@ public class Controller {
 
     // Решить систему уравнений из двух линейных уравнений с двумя неизвестными
     private void systLineEquatOfTwoWithTwo() {
-
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                int a = rnd(1, 30);
+                int b = rnd(1, 30);
+                int c = rnd(1, 30);
+                int d = rnd(1, 30);
+                int e = rnd(1, 30);
+                int f = rnd(1, 30);
+                double y = (double) (a * f - c * d) / (a * e - b * d);
+                double x = (double) (c * e - b * f) / (a * e - b * d);
+                String sY = String.format("%.2f", y);
+                String sX = String.format("%.2f", x);
+                int i = rnd(1, 12);
+                if (i < 6) {
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x+" + b + "y=" + c + "\n    " + d + "x+" + e + "y=" + f + "\n");
+                } else {
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x-" + c + "=-" + b + "y" + "\n    " + d + "x-" + f + "=-" + e + "y" + "\n");
+                }
+                textArea2.setText(textArea2.getText() + counter + ") X=" + sX + "; Y=" + sY + "\n");
+            }
+        }
     }
 
     // Решить систему уравнений из трех линейных уравнений с тремя неизвестными
     private void systLineEquatOfThreeWithThree() {
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
 
+                /* Ввод данных */
+                int n = 3;
+                int m = 3;
+                int[][] A = new int[100][100];
+                int[] b = new int[100];
+                for (int i = 0; i < n; i++) {
+                    A[i] = new int[100];
+                    for (int j = 0; j < m; j++) {
+                        A[i][j] = rnd(1, 30);
+                    }
+                    b[i] = rnd(1, 30);
+                }
+                textArea.setText(textArea.getText() + counter + ") " + A[0][0] + "x₁+" + A[0][1] + "x₂+" + A[0][2] + "x₃=" + b[0] + "\n    "
+                                                                    + A[1][0] + "x₁+" + A[1][1] + "x₂+" + A[1][2] + "x₃=" + b[1] + "\n    "
+                                                                    + A[2][0] + "x₁+" + A[2][1] + "x₂+" + A[2][2] + "x₃=" + b[3] + "\n");
+                /* Метод Гаусса */
+                int N = n;
+                for (int p = 0; p < N; p++) {
+                    int max = p;
+                    for (int i = p + 1; i < N; i++) {
+                        if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+                            max = i;
+                        }
+                    }
+                    int[] temp = A[p];
+                    A[p] = A[max];
+                    A[max] = temp;
+                    double t = b[p];
+                    b[p] = b[max];
+                    b[max] = (int) t;
+                    if (Math.abs(A[p][p]) <= 1e-10) {
+                        System.out.println("NO");
+                        return;
+                    }
+                    for (int i = p + 1; i < N; i++) {
+                        double alpha = A[i][p] / A[p][p];
+                        b[i] -= alpha * b[p];
+                        for (int j = p; j < N; j++) {
+                            A[i][j] -= alpha * A[p][j];
+                        }
+                    }
+                }
+
+                // Обратный проход
+                double[] x = new double[N];
+                for (int i = N - 1; i >= 0; i--) {
+                    double sum = 0.0;
+                    for (int j = i + 1; j < N; j++) {
+                        sum += A[i][j] * x[j];
+                    }
+                    x[i] = (b[i] - sum) / A[i][i];
+                }
+
+                /* Вывод результатов */
+                int j = 1;
+                textArea2.setText(textArea2.getText() + counter + ") ");
+                for (int i = 0; i < N; i++) {
+                    String sX = String.format("%.2f", x[i]);
+                    j += i;
+                    textArea2.setText(textArea2.getText() + "X" + j + "=" + sX + "  ");
+                }
+                textArea2.setText(textArea2.getText() + "\n");
+            }
+        }
     }
 
     // Решить систему уравнений из двух однородных уравнений с двумя неизвестными
     private void systOdnEquatOfTwoWithTwo() {
-
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                //
+                textArea.setText(textArea.getText() + counter + ") " + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + "\n");
+            }
+        }
     }
 
     // Решить линейное неравенство
@@ -466,6 +583,7 @@ public class Controller {
             }
         }
     }
+
     private void fotQuadIneq() {
         int a = rnd();
         int b = rnd();
@@ -509,22 +627,22 @@ public class Controller {
             textArea.setText(textArea.getText() + counter + ") " + a + "x²" + signB + b + "x" + signC + c + znak + "0" + "\n");
             if (res > 0) {
                 if ((x2 > x1) && (znak.equals(">"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx2 + "+∞)" + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx2 + "+∞)" + "\n");
                 } else if ((x2 > x1) && (znak.equals("<"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    X∈("+fx1+";"+fx2+")" + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx1 + ";" + fx2 + ")" + "\n");
                 } else if ((x1 > x2) && (znak.equals(">"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    X∈(-∞;" + fx2 + ")⋃(" + fx1 + "+∞)" + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx2 + ")⋃(" + fx1 + "+∞)" + "\n");
                 } else if ((x1 > x2) && (znak.equals("<"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    X∈("+fx2+";"+fx1+")" + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx2 + ";" + fx1 + ")" + "\n");
                 }
             } else if ((res == 0) && (znak.equals(">"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx1 + "+∞)" + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx1 + "+∞)" + "\n");
             } else if ((res == 0) && (znak.equals("<"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n");
             } else if ((res < 0) && (znak.equals(">"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n    (-∞;+∞)" + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    (-∞;+∞)" + "\n");
             } else if ((res < 0) && (znak.equals("<"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X1=" + fx1 + ", X2=" + fx2 + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n");
             }
         } else {
             fotQuadIneq();
@@ -533,6 +651,61 @@ public class Controller {
 
     // Решить рациональное неравенство
     private void rationalInequality() {
-
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                int iter = rnd(1, 20);
+                if (iter < 6) {
+                    int i = rnd(1, 22);
+                    int x = rnd();
+                    int a = rnd();
+                    int b = rnd();
+                    if (i < 5) {
+                        int c = rnd();
+                        int e = a * x + b * x + c;
+                        String signB = "", signC = "";
+                        if (b > 0) signB = "+";
+                        else signB = " ";
+                        if (c > 0) signC = "+";
+                        else signC = " ";
+                        textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "x" + signC + c + ">" + e + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X>" + x + "\n");
+                    } else if ((i > 5) && (i < 12)) {
+                        int c = a * x + b;
+                        String signB = "";
+                        if (b > 0) signB = "+";
+                        else signB = " ";
+                        textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "<" + c + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X < " + x + "\n");
+                    } else if ((i > 12) && (i < 17)) {
+                        int c = rnd();
+                        int e = a * x + b * x + c;
+                        String signB = "", signC = "";
+                        if (b > 0) signB = "+";
+                        else signB = " ";
+                        if (c > 0) signC = "+";
+                        else signC = " ";
+                        textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "x" + signC + c + "<=" + e + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X<=" + x + "\n");
+                    } else {
+                        int c = a * x + b;
+                        String signB = "";
+                        if (b > 0) signB = "+";
+                        else signB = " ";
+                        textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + ">=" + c + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X >= " + x + "\n");
+                    }
+                } else if ((iter > 6) && (iter < 12)) {
+                    fotQuadIneq();
+                }
+            }
+        }
     }
 }
