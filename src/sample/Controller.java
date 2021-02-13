@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Controller {
@@ -83,32 +82,34 @@ public class Controller {
 
         //Кнопка "Генерировать"
         btnGenerate.setOnAction(event -> {
-            // 1
             if (comboBox.getValue().equals("Линейное уравнение")) {
                 if (border()) linearEquation();
             } else if (comboBox.getValue().equals("Квадратное уравнение")) {
                 if (border()) squareEquation();
-                // 2
             } else if (comboBox.getValue().equals("Вычислить n-й член арифметической прогрессии")) {
                 if (border()) searchNElemOfProgress();
             } else if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
                 if (border()) sumOfNNumOfProgress();
             } else if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
                 if (border()) differenceOfProgress();
-                // 3
             } else if (comboBox.getValue().equals("Решить систему уравнений из двух линейных уравнений с двумя неизвестными")) {
                 if (border()) systLineEquatOfTwoWithTwo();
             } else if (comboBox.getValue().equals("Решить систему уравнений из трех линейных уравнений с тремя неизвестными")) {
                 if (border()) systLineEquatOfThreeWithThree();
             } else if (comboBox.getValue().equals("Решить систему уравнений из двух однородных уравнений с двумя неизвестными")) {
                 if (border()) systOdnEquatOfTwoWithTwo();
-                // 4
             } else if (comboBox.getValue().equals("Решить линейное неравенство")) {
                 if (border()) linearInequality();
             } else if (comboBox.getValue().equals("Решить квадратное неравенство")) {
                 if (border()) quadraticInequality();
             } else if (comboBox.getValue().equals("Решить рациональное неравенство")) {
                 if (border()) rationalInequality();
+            } else if (comboBox.getValue().equals("Задача про туриста")) {
+                if (border()) touristTask();
+            } else if (comboBox.getValue().equals("Задача про самолёт")) {
+                if (border()) airplaneTask();
+            } else if (comboBox.getValue().equals("Задача про машину")) {
+                if (border()) carTask();
             }
         });
 
@@ -148,7 +149,7 @@ public class Controller {
         }
     }
 
-    //генератор квадратных уравнений
+    //1.2.Генератор квадратных уравнений
     private void squareEquation() {
         textArea.clear();
         textArea2.clear();
@@ -219,7 +220,7 @@ public class Controller {
         ObservableList<String> langs = FXCollections.observableArrayList("Линейное уравнение", "Квадратное уравнение", "Вычислить n-й член арифметической прогрессии"
                 , "Вычислить сумму первых n членов арифметической прогрессии", "Вычислить разницу арифметической прогрессии d", "Решить систему уравнений из двух линейных уравнений с двумя неизвестными"
                 , "Решить систему уравнений из трех линейных уравнений с тремя неизвестными", "Решить систему уравнений из двух однородных уравнений с двумя неизвестными"
-                , "Решить линейное неравенство", "Решить квадратное неравенство", "Решить рациональное неравенство");
+                , "Решить линейное неравенство", "Решить квадратное неравенство", "Решить рациональное неравенство", "Задача про туриста", "Задача про самолёт", "Задача про машину");
         comboBox.setItems(langs);
         comboBox.setValue("Линейное уравнение"); // устанавливаем выбранный элемент по умолчанию
         fieldFile.setText("Введите имя файла");
@@ -227,7 +228,7 @@ public class Controller {
         progressInput.setVisible(false);
     }
 
-    //генератор линейных уравнений
+    //1.1.Генератор линейных уравнений
     private void linearEquation() {
         textArea.clear();
         textArea2.clear();
@@ -290,7 +291,7 @@ public class Controller {
             return bd.intValue();
     }
 
-    // поиск n-члена прогрессии
+    // 2.1.Поиск n-члена прогрессии
     private void searchNElemOfProgress() {
         textArea.clear();
         textArea2.clear();
@@ -320,7 +321,7 @@ public class Controller {
         }
     }
 
-    // сумма первых n членов прогрессии
+    // 2.2.Сумма первых n членов прогрессии
     private void sumOfNNumOfProgress() {
         textArea.clear();
         textArea2.clear();
@@ -345,7 +346,7 @@ public class Controller {
         }
     }
 
-    // вычислить разницу арифметической прогрессии d
+    // 2.3.Вычислить разницу арифметической прогрессии d
     private void differenceOfProgress() {
         textArea.clear();
         textArea2.clear();
@@ -381,7 +382,7 @@ public class Controller {
         }
     }
 
-    // Решить систему уравнений из двух линейных уравнений с двумя неизвестными
+    // 3.1.Решить систему уравнений из двух линейных уравнений с двумя неизвестными
     private void systLineEquatOfTwoWithTwo() {
         textArea.clear();
         textArea2.clear();
@@ -414,7 +415,7 @@ public class Controller {
         }
     }
 
-    // Решить систему уравнений из трех линейных уравнений с тремя неизвестными
+    // 3.2.Решить систему уравнений из трех линейных уравнений с тремя неизвестными
     private void systLineEquatOfThreeWithThree() {
         textArea.clear();
         textArea2.clear();
@@ -440,8 +441,8 @@ public class Controller {
                     b[i] = rnd(1, 30);
                 }
                 textArea.setText(textArea.getText() + counter + ") " + A[0][0] + "x₁+" + A[0][1] + "x₂+" + A[0][2] + "x₃=" + b[0] + "\n    "
-                                                                    + A[1][0] + "x₁+" + A[1][1] + "x₂+" + A[1][2] + "x₃=" + b[1] + "\n    "
-                                                                    + A[2][0] + "x₁+" + A[2][1] + "x₂+" + A[2][2] + "x₃=" + b[3] + "\n");
+                        + A[1][0] + "x₁+" + A[1][1] + "x₂+" + A[1][2] + "x₃=" + b[1] + "\n    "
+                        + A[2][0] + "x₁+" + A[2][1] + "x₂+" + A[2][2] + "x₃=" + b[3] + "\n");
                 /* Метод Гаусса */
                 int N = n;
                 for (int p = 0; p < N; p++) {
@@ -485,15 +486,15 @@ public class Controller {
                 textArea2.setText(textArea2.getText() + counter + ") ");
                 for (int i = 0; i < N; i++) {
                     String sX = String.format("%.2f", x[i]);
-                    j += i;
-                    textArea2.setText(textArea2.getText() + "X" + j + "=" + sX + "  ");
+                    textArea2.setText(textArea2.getText() + "X" + j + "=" + sX + "; ");
+                    j++;
                 }
                 textArea2.setText(textArea2.getText() + "\n");
             }
         }
     }
 
-    // Решить систему уравнений из двух однородных уравнений с двумя неизвестными
+    // 3.3.Решить систему уравнений из двух однородных уравнений с двумя неизвестными
     private void systOdnEquatOfTwoWithTwo() {
         textArea.clear();
         textArea2.clear();
@@ -512,7 +513,7 @@ public class Controller {
         }
     }
 
-    // Решить линейное неравенство
+    // 4.1.Решить линейное неравенство
     private void linearInequality() {
         textArea.clear();
         textArea2.clear();
@@ -567,7 +568,7 @@ public class Controller {
         }
     }
 
-    // Решить квадратное неравенство
+    // 4.2.Решить квадратное неравенство
     private void quadraticInequality() {
         textArea.clear();
         textArea2.clear();
@@ -649,7 +650,7 @@ public class Controller {
         }
     }
 
-    // Решить рациональное неравенство
+    // 4.3.Решить рациональное неравенство
     private void rationalInequality() {
         textArea.clear();
         textArea2.clear();
@@ -705,6 +706,86 @@ public class Controller {
                 } else if ((iter > 6) && (iter < 12)) {
                     fotQuadIneq();
                 }
+            }
+        }
+    }
+
+    // 5.1.Задача про туриста
+    private void touristTask() {
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                int firstHulfOfWay = rnd(2, 5); //  скорость и расстояние первого участка пути
+                int v2 = rnd(6, 9);
+                int t1 = rnd(10, 40);
+                int t2 = rnd(10, 40);
+                double diffInTime = (double) (t1 / 60) + (double) (t2 / 60); // Разница во времени
+                double diffSpeed = (double) (1 / firstHulfOfWay) + (double) (2 / v2); // Разница скоростей
+                double secondHulfOfWay = diffInTime * diffSpeed;
+                double allWay = firstHulfOfWay + secondHulfOfWay;
+                textArea.setText(textArea.getText() + counter + ")Турист, идущий из деревни на\nжелезнодорожную станцию, пройдя\nза первый час " + firstHulfOfWay + " км, "
+                        + "рассчитал, что он\nопоздает к поезду на " + t1 + " мин., если\nбудет двигаться с той же скоростью."
+                        + "\nПоэтому остальной путь он проходит со\nскоростью " + v2 + " км/ч и прибывает на\nстанцию за " + t2 + " мин. до отхода поезда."
+                        + "\nКаково расстояние от деревни до\nстанции?" + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + allWay + " км.\n");
+            }
+        }
+    }
+
+    // 5.2.Задача про самолёт
+    private void airplaneTask() {
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                int v1 = rnd(170, 280);
+                int v2 = rnd(290, 390);
+                int av = rnd(220, 280);
+                int s = rnd(200, 500);
+                
+                textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + v1 + " км/ч. Когда ему осталось пролететь\nна "+ s +" км меньше, чем он пролетел, "
+                        + "он\nизменил скорость и стал двигаться со\nскоростью " + v2 + " км/ч. Средняя скорость\nсамолета на всем пути оказалась\nравной " + av + " км/ч. "
+                        + "Какое расстояние\nпролетел самолет?" + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + " км.\n");
+            }
+        }
+    }
+
+    // 5.3.Задача про машину
+    private void carTask() {
+        textArea.clear();
+        textArea2.clear();
+        for (int var = 0; var < Integer.parseInt(varField.getText()); var++) {
+            int var2 = var;
+            textArea.setText(textArea.getText() + "Вариант - " + ++var + "\n");
+            textArea2.setText(textArea2.getText() + "Вариант - " + ++var2 + "\n");
+            var--;
+            for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
+                counter = ++count;
+                count--;
+                int t = rnd(2, 5);
+                int v1 = rnd(190, 290);
+                int v2 = rnd(130, 180);
+                double halfWay = v1 * t;
+                double allTime = t + (halfWay / v2);
+                String allTimeStr = String.format("%.1f", allTime);
+                textArea.setText(textArea.getText() + counter + ")Половину маршрута гоночная\nмашина проехала за " + t + " часа со\nскоростью " + v1 + " км/ч,"
+                        + "а остальное\nрасстояние – со скоростью " + v2 + " км/ч."
+                        + "\nСколько времени гоночная машина\nпровела в пути?" + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + allTimeStr + " ч.\n");
             }
         }
     }
