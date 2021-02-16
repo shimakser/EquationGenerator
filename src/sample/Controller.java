@@ -66,16 +66,19 @@ public class Controller {
             if (comboBox.getValue().equals("Вычислить n-й член арифметической прогрессии")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
+                textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле через\nпробел укажите, какой n-член нужно\nнайти и сколько членов прогрессии\nзаранее известно");
             }
             if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
+                textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле укажите\nсумму скольких n-членов прогрессии\nнужно найти");
             }
             if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
+                textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле через\nпробел укажите два индекса заранее\nизвестных элементов прогресии");
             }
         });
@@ -303,20 +306,25 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                String inputStr = progressInput.getText();
-                int space = inputStr.indexOf(" ");
-                int searchingN = Integer.parseInt(inputStr.substring(0, space));
-                int nCount = Integer.parseInt(inputStr.substring(space + 1));
-                int a1 = rnd(1, 50);
-                int d = rnd(1, 10);
-                ArrayList<Integer> arrWithA = new ArrayList<>();
-                for (int i = 0; i < nCount; i++) {
-                    arrWithA.add(a1);
-                    a1 += d;
+                try {
+                    String inputStr = progressInput.getText();
+                    int space = inputStr.indexOf(" ");
+                    int searchingN = Integer.parseInt(inputStr.substring(0, space));
+                    int nCount = Integer.parseInt(inputStr.substring(space + 1));
+                    int a1 = rnd(1, 50);
+                    int d = rnd(1, 10);
+                    ArrayList<Integer> arrWithA = new ArrayList<>();
+                    for (int i = 0; i < nCount; i++) {
+                        arrWithA.add(a1);
+                        a1 += d;
+                    }
+                    int an = a1 + (d * (searchingN - 1));
+                    textArea.setText(textArea.getText() + counter + ") " + arrWithA + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + an + "\n");
+                } catch (StringIndexOutOfBoundsException ex) {
+                    textArea2.clear();
+                    textArea.setText("Ниже в соответствующем поле через\nпробел укажите, какой n-член нужно\nнайти и сколько членов прогрессии\nзаранее известно");
                 }
-                int an = a1 + (d * (searchingN - 1));
-                textArea.setText(textArea.getText() + counter + ") " + arrWithA + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + an + "\n");
             }
         }
     }
@@ -333,15 +341,20 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                int a1 = rnd(1, 50);
-                int d = rnd(1, 10);
-                int result = a1;
-                for (int i = 1; i < Integer.parseInt(progressInput.getText()); i++) {
-                    a1 += d;
-                    result += a1;
+                try {
+                    int a1 = rnd(1, 50);
+                    int d = rnd(1, 10);
+                    int result = a1;
+                    for (int i = 1; i < Integer.parseInt(progressInput.getText()); i++) {
+                        a1 += d;
+                        result += a1;
+                    }
+                    textArea.setText(textArea.getText() + counter + ") " + "a₁=" + a1 + ", d=" + d + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + result + "\n");
+                } catch (NumberFormatException ex) {
+                    textArea2.clear();
+                    textArea.setText("Ниже в соответствующем поле укажите\nсумму скольких n-членов прогрессии\nнужно найти");
                 }
-                textArea.setText(textArea.getText() + counter + ") " + "a₁=" + a1 + ", d=" + d + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + result + "\n");
             }
         }
     }
@@ -358,26 +371,31 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                String inputStr = progressInput.getText();
-                int space = inputStr.indexOf(" ");
-                int indAn1 = Integer.parseInt(inputStr.substring(0, space));
-                int indAn2 = Integer.parseInt(inputStr.substring(space + 1));
-                int diffAns;
-                double d = 0;
-                if (indAn1 > indAn2) {
-                    diffAns = indAn1 - indAn2;
-                    int an2 = rnd(1, 50);
-                    int an1 = rnd(an2 + 1, 50);
-                    d += (double) (an1 - an2) / diffAns;
-                    textArea.setText(textArea.getText() + counter + ") a" + indAn2 + "=" + an2 + ", a" + indAn1 + "=" + an1 + "\n");
-                } else if (indAn2 > indAn1) {
-                    diffAns = indAn2 - indAn1;
-                    int an1 = rnd(1, 50);
-                    int an2 = rnd(an1 + 1, 50);
-                    d += (double) (an2 - an1) / diffAns;
-                    textArea.setText(textArea.getText() + counter + ") a" + indAn1 + "=" + an1 + ", a" + indAn2 + "=" + an2 + "\n");
+                try {
+                    String inputStr = progressInput.getText();
+                    int space = inputStr.indexOf(" ");
+                    int indAn1 = Integer.parseInt(inputStr.substring(0, space));
+                    int indAn2 = Integer.parseInt(inputStr.substring(space + 1));
+                    int diffAns;
+                    double d = 0;
+                    if (indAn1 > indAn2) {
+                        diffAns = indAn1 - indAn2;
+                        int an2 = rnd(1, 50);
+                        int an1 = rnd(an2 + 1, 50);
+                        d += (double) (an1 - an2) / diffAns;
+                        textArea.setText(textArea.getText() + counter + ") a" + indAn2 + "=" + an2 + ", a" + indAn1 + "=" + an1 + "\n");
+                    } else if (indAn2 > indAn1) {
+                        diffAns = indAn2 - indAn1;
+                        int an1 = rnd(1, 50);
+                        int an2 = rnd(an1 + 1, 50);
+                        d += (double) (an2 - an1) / diffAns;
+                        textArea.setText(textArea.getText() + counter + ") a" + indAn1 + "=" + an1 + ", a" + indAn2 + "=" + an2 + "\n");
+                    }
+                    textArea2.setText(textArea2.getText() + counter + ") " + d + "\n");
+                } catch (StringIndexOutOfBoundsException ex) {
+                    textArea2.clear();
+                    textArea.setText("Ниже в соответствующем поле через\nпробел укажите два индекса заранее\nизвестных элементов прогресии");
                 }
-                textArea2.setText(textArea2.getText() + counter + ") " + d + "\n");
             }
         }
     }
@@ -506,14 +524,19 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                int iter = rnd(1, 12);
-                if (iter < 4) {
-
-                } else {
-
-                }
-                textArea.setText(textArea.getText() + counter + ") " + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + "\n");
+                double x = rnd(1, 8);
+                double y = rnd(1, 8);
+                double a1 = rnd(1, 6);
+                double a2 = rnd(1, 6);
+                double b1 = rnd(1, 6);
+                double b2 = rnd(1, 6);
+                double c1 = rnd(1, 6);
+                double c2 = rnd(1, 6);
+                double d1 = (double) (a1 * Math.pow(x, 2) - b1 * x * y + c1 * Math.pow(y, 2));
+                double d2 = (double) (a2 * Math.pow(x, 2) + b2 * x * y - c2 * Math.pow(y, 2));
+                textArea.setText(textArea.getText() + counter + ") " + (int) a1 + "x²-" + (int) b1 + "xy+" + (int) c1 + "y²=" + (int) d1 + "\n    " +
+                        (int) a2 + "x²+" + (int) b2 + "xy-" + (int) c2 + "y²=" + (int) d2 + "\n");
+                textArea2.setText(textArea2.getText() + counter + ") X=" + (int) x + ", Y=" + (int) y + ".\n");
             }
         }
     }
@@ -670,7 +693,7 @@ public class Controller {
                 int a = rnd(1, 10);
                 int b = rnd(1, 10);
                 int c = rnd(1, 10);
-                int iter = rnd(1, 4);
+                int iter = (int) rnd(1, 4);
                 if (iter == 1) {
                     textArea.setText(textArea.getText() + counter + ") x/(x+" + a + ") < -" + b + "\n");
                     int x2 = ((b * a) / (b + 1));
@@ -748,15 +771,19 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                int v1 = rnd(170, 280);
-                int v2 = rnd(290, 390);
-                int av = rnd(220, 280);
-                int s = rnd(200, 500);
+                double v1 = rnd(170, 280);
+                double v2 = rnd(290, 390);
+                double av = rnd(220, 280);
+                double t = rnd(200, 500);
+                double x = rnd(700, 950);
 
-                textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + v1 + " км/ч. Когда ему осталось пролететь\nна " + s + " км меньше, чем он пролетел, "
+                double s = (double) (av * ((x / v1) + ((x - t) / v2)));
+                String result = String.format("%.1f", s);
+
+                textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + v1 + " км/ч. Когда ему осталось пролететь\nна " + t + " км меньше, чем он пролетел, "
                         + "он\nизменил скорость и стал двигаться со\nскоростью " + v2 + " км/ч. Средняя скорость\nсамолета на всем пути оказалась\nравной " + av + " км/ч. "
                         + "Какое расстояние\nпролетел самолет?" + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + " км.\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + result + " км.\n");
             }
         }
     }
