@@ -68,20 +68,22 @@ public class Controller {
                 progressTxt.setVisible(true);
                 textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле через\nпробел укажите, какой n-член нужно\nнайти и сколько членов прогрессии\nзаранее известно");
-            }
-            if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
+            } else if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
                 textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле укажите\nсумму скольких n-членов прогрессии\nнужно найти");
-            }
-            if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
+            } else if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
                 textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле через\nпробел укажите два индекса заранее\nизвестных элементов прогресии");
+            } else {
+                progressInput.setVisible(false);
+                progressTxt.setVisible(false);
             }
         });
+
 
         //Кнопка "Генерировать"
         btnGenerate.setOnAction(event -> {
@@ -312,13 +314,14 @@ public class Controller {
                     int searchingN = Integer.parseInt(inputStr.substring(0, space));
                     int nCount = Integer.parseInt(inputStr.substring(space + 1));
                     int a1 = rnd(1, 50);
+                    int aExe = a1;
                     int d = rnd(1, 10);
                     ArrayList<Integer> arrWithA = new ArrayList<>();
                     for (int i = 0; i < nCount; i++) {
                         arrWithA.add(a1);
                         a1 += d;
                     }
-                    int an = a1 + (d * (searchingN - 1));
+                    int an = aExe + (d * (searchingN - 1));
                     textArea.setText(textArea.getText() + counter + ") " + arrWithA + "\n");
                     textArea2.setText(textArea2.getText() + counter + ") " + an + "\n");
                 } catch (StringIndexOutOfBoundsException ex) {
@@ -344,11 +347,9 @@ public class Controller {
                 try {
                     int a1 = rnd(1, 50);
                     int d = rnd(1, 10);
-                    int result = a1;
-                    for (int i = 1; i < Integer.parseInt(progressInput.getText()); i++) {
-                        a1 += d;
-                        result += a1;
-                    }
+                    int n = Integer.parseInt(progressInput.getText());
+                    int result = n * (2 * a1 + d * (n - 1)) / 2;
+
                     textArea.setText(textArea.getText() + counter + ") " + "a₁=" + a1 + ", d=" + d + "\n");
                     textArea2.setText(textArea2.getText() + counter + ") " + result + "\n");
                 } catch (NumberFormatException ex) {
@@ -391,7 +392,8 @@ public class Controller {
                         d += (double) (an2 - an1) / diffAns;
                         textArea.setText(textArea.getText() + counter + ") a" + indAn1 + "=" + an1 + ", a" + indAn2 + "=" + an2 + "\n");
                     }
-                    textArea2.setText(textArea2.getText() + counter + ") " + d + "\n");
+                    String dStr = String.format("%.2f", d);
+                    textArea2.setText(textArea2.getText() + counter + ") " + dStr + "\n");
                 } catch (StringIndexOutOfBoundsException ex) {
                     textArea2.clear();
                     textArea.setText("Ниже в соответствующем поле через\nпробел укажите два индекса заранее\nизвестных элементов прогресии");
@@ -742,19 +744,20 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                int firstHulfOfWay = rnd(2, 5); //  скорость и расстояние первого участка пути
-                int v2 = rnd(6, 9);
-                int t1 = rnd(10, 40);
-                int t2 = rnd(10, 40);
-                double diffInTime = (double) (t1 / 60) + (double) (t2 / 60); // Разница во времени
-                double diffSpeed = (double) (1 / firstHulfOfWay) + (double) (2 / v2); // Разница скоростей
-                double secondHulfOfWay = diffInTime * diffSpeed;
-                double allWay = firstHulfOfWay + secondHulfOfWay;
-                textArea.setText(textArea.getText() + counter + ")Турист, идущий из деревни на\nжелезнодорожную станцию, пройдя\nза первый час " + firstHulfOfWay + " км, "
-                        + "рассчитал, что он\nопоздает к поезду на " + t1 + " мин., если\nбудет двигаться с той же скоростью."
-                        + "\nПоэтому остальной путь он проходит со\nскоростью " + v2 + " км/ч и прибывает на\nстанцию за " + t2 + " мин. до отхода поезда."
+                double v1 = rnd(2, 5); //  скорость и расстояние первого участка пути
+                double v2 = rnd(6, 9);
+                double t1 = rnd(10, 40);
+                double t2 = rnd(10, 40);
+                double diffInTime = (double) ((t1 / 60) + (t2 / 60)); // Разница во времени
+                double diffSpeed = (double) ((1 / v1) - (1 / v2)); // Разница скоростей
+                double secondHulfOfWay = (double) (diffInTime * diffSpeed);
+                double allWay = (double) (v1 + secondHulfOfWay);
+                String strWay = String.format("%.3f", allWay);
+                textArea.setText(textArea.getText() + counter + ")Турист, идущий из деревни на\nжелезнодорожную станцию, пройдя\nза первый час " + String.format("%.0f", v1) + " км, "
+                        + "рассчитал, что он\nопоздает к поезду на " + String.format("%.0f", t1) + " мин., если\nбудет двигаться с той же скоростью."
+                        + "\nПоэтому остальной путь он проходит со\nскоростью " + String.format("%.0f", v2) + " км/ч и прибывает на\nстанцию за " + String.format("%.0f", t2) + " мин. до отхода поезда."
                         + "\nКаково расстояние от деревни до\nстанции?" + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + allWay + " км.\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + strWay + " км.\n");
             }
         }
     }
@@ -773,17 +776,17 @@ public class Controller {
                 count--;
                 double v1 = rnd(170, 280);
                 double v2 = rnd(290, 390);
-                double av = rnd(220, 280);
-                double t = rnd(200, 500);
-                double x = rnd(700, 950);
+                double p = rnd(200, 500);
+                double s = rnd(700, 950);
+                double result = (double) (2 * s - p);
 
-                double s = (double) (av * ((x / v1) + ((x - t) / v2)));
-                String result = String.format("%.1f", s);
+                double ff = (double) ((s / v1) + ((s - p) / v2));
+                double av = (double) (result / ff);
 
-                textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + v1 + " км/ч. Когда ему осталось пролететь\nна " + t + " км меньше, чем он пролетел, "
-                        + "он\nизменил скорость и стал двигаться со\nскоростью " + v2 + " км/ч. Средняя скорость\nсамолета на всем пути оказалась\nравной " + av + " км/ч. "
+                textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + String.format("%.0f", v1) + " км/ч. Когда ему осталось пролететь\nна " + String.format("%.0f", p) + " км меньше, чем он пролетел, "
+                        + "он\nизменил скорость и стал двигаться со\nскоростью " + String.format("%.0f", v2) + " км/ч. Средняя скорость\nсамолета на всем пути оказалась\nравной " + String.format("%.2f", av) + " км/ч. "
                         + "Какое расстояние\nпролетел самолет?" + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + result + " км.\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + String.format("%.1f", result) + " км.\n");
             }
         }
     }
