@@ -10,6 +10,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -63,17 +64,17 @@ public class Controller {
         textFieldProp(varField);
 
         comboBox.setOnAction(event -> {
-            if (comboBox.getValue().equals("Вычислить n-й член арифметической прогрессии")) {
+            if (comboBox.getValue().equals("2.1.Вычислить n-й член арифметической прогрессии")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
                 textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле через\nпробел укажите, какой n-член нужно\nнайти и сколько членов прогрессии\nзаранее известно");
-            } else if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
+            } else if (comboBox.getValue().equals("2.2.Вычислить сумму первых n членов арифметической прогрессии")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
                 textArea2.clear();
                 textArea.setText("Ниже в соответствующем поле укажите\nсумму скольких n-членов прогрессии\nнужно найти");
-            } else if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
+            } else if (comboBox.getValue().equals("2.3.Вычислить разницу арифметической прогрессии d")) {
                 progressInput.setVisible(true);
                 progressTxt.setVisible(true);
                 textArea2.clear();
@@ -87,33 +88,33 @@ public class Controller {
 
         //Кнопка "Генерировать"
         btnGenerate.setOnAction(event -> {
-            if (comboBox.getValue().equals("Линейное уравнение")) {
+            if (comboBox.getValue().equals("1.1.Линейное уравнение")) {
                 if (border()) linearEquation();
-            } else if (comboBox.getValue().equals("Квадратное уравнение")) {
+            } else if (comboBox.getValue().equals("1.2.Квадратное уравнение")) {
                 if (border()) squareEquation();
-            } else if (comboBox.getValue().equals("Вычислить n-й член арифметической прогрессии")) {
+            } else if (comboBox.getValue().equals("2.1.Вычислить n-й член арифметической прогрессии")) {
                 if (border()) searchNElemOfProgress();
-            } else if (comboBox.getValue().equals("Вычислить сумму первых n членов арифметической прогрессии")) {
+            } else if (comboBox.getValue().equals("2.2.Вычислить сумму первых n членов арифметической прогрессии")) {
                 if (border()) sumOfNNumOfProgress();
-            } else if (comboBox.getValue().equals("Вычислить разницу арифметической прогрессии d")) {
+            } else if (comboBox.getValue().equals("2.3.Вычислить разницу арифметической прогрессии d")) {
                 if (border()) differenceOfProgress();
-            } else if (comboBox.getValue().equals("Решить систему уравнений из двух линейных уравнений с двумя неизвестными")) {
+            } else if (comboBox.getValue().equals("3.1.Решить систему уравнений из двух линейных уравнений с двумя неизвестными")) {
                 if (border()) systLineEquatOfTwoWithTwo();
-            } else if (comboBox.getValue().equals("Решить систему уравнений из трех линейных уравнений с тремя неизвестными")) {
+            } else if (comboBox.getValue().equals("3.2.Решить систему уравнений из трех линейных уравнений с тремя неизвестными")) {
                 if (border()) systLineEquatOfThreeWithThree();
-            } else if (comboBox.getValue().equals("Решить систему уравнений из двух однородных уравнений с двумя неизвестными")) {
+            } else if (comboBox.getValue().equals("3.3.Решить систему уравнений из двух однородных уравнений с двумя неизвестными")) {
                 if (border()) systOdnEquatOfTwoWithTwo();
-            } else if (comboBox.getValue().equals("Решить линейное неравенство")) {
+            } else if (comboBox.getValue().equals("4.1.Решить линейное неравенство")) {
                 if (border()) linearInequality();
-            } else if (comboBox.getValue().equals("Решить квадратное неравенство")) {
+            } else if (comboBox.getValue().equals("4.2.Решить квадратное неравенство")) {
                 if (border()) quadraticInequality();
-            } else if (comboBox.getValue().equals("Решить рациональное неравенство")) {
+            } else if (comboBox.getValue().equals("4.3.Решить рациональное неравенство")) {
                 if (border()) rationalInequality();
-            } else if (comboBox.getValue().equals("Задача про туриста")) {
+            } else if (comboBox.getValue().equals("5.1.Задача про туриста")) {
                 if (border()) touristTask();
-            } else if (comboBox.getValue().equals("Задача про самолёт")) {
+            } else if (comboBox.getValue().equals("5.2.Задача про самолёт")) {
                 if (border()) airplaneTask();
-            } else if (comboBox.getValue().equals("Задача про машину")) {
+            } else if (comboBox.getValue().equals("5.3.Задача про машину")) {
                 if (border()) carTask();
             }
         });
@@ -142,6 +143,8 @@ public class Controller {
             }
         });
     }
+
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     //границы ввода количества примеров
     private boolean border() {
@@ -222,12 +225,12 @@ public class Controller {
 
     //инициализация программы
     private void init() {
-        ObservableList<String> langs = FXCollections.observableArrayList("Линейное уравнение", "Квадратное уравнение", "Вычислить n-й член арифметической прогрессии"
-                , "Вычислить сумму первых n членов арифметической прогрессии", "Вычислить разницу арифметической прогрессии d", "Решить систему уравнений из двух линейных уравнений с двумя неизвестными"
-                , "Решить систему уравнений из трех линейных уравнений с тремя неизвестными", "Решить систему уравнений из двух однородных уравнений с двумя неизвестными"
-                , "Решить линейное неравенство", "Решить квадратное неравенство", "Решить рациональное неравенство", "Задача про туриста", "Задача про самолёт", "Задача про машину");
+        ObservableList<String> langs = FXCollections.observableArrayList("1.1.Линейное уравнение", "1.2.Квадратное уравнение", "2.1.Вычислить n-й член арифметической прогрессии"
+                , "2.2.Вычислить сумму первых n членов арифметической прогрессии", "2.3.Вычислить разницу арифметической прогрессии d", "3.1.Решить систему уравнений из двух линейных уравнений с двумя неизвестными"
+                , "3.2.Решить систему уравнений из трех линейных уравнений с тремя неизвестными", "3.3.Решить систему уравнений из двух однородных уравнений с двумя неизвестными"
+                , "4.1.Решить линейное неравенство", "4.2.Решить квадратное неравенство", "4.3.Решить рациональное неравенство", "5.1.Задача про туриста", "5.2.Задача про самолёт", "5.3.Задача про машину");
         comboBox.setItems(langs);
-        comboBox.setValue("Линейное уравнение"); // устанавливаем выбранный элемент по умолчанию
+        comboBox.setValue("1.1.Линейное уравнение"); // устанавливаем выбранный элемент по умолчанию
         fieldFile.setText("Введите имя файла");
         progressTxt.setVisible(false);
         progressInput.setVisible(false);
@@ -360,6 +363,7 @@ public class Controller {
         }
     }
 
+
     // 2.3.Вычислить разницу арифметической прогрессии d
     private void differenceOfProgress() {
         textArea.clear();
@@ -392,7 +396,7 @@ public class Controller {
                         d += (double) (an2 - an1) / diffAns;
                         textArea.setText(textArea.getText() + counter + ") a" + indAn1 + "=" + an1 + ", a" + indAn2 + "=" + an2 + "\n");
                     }
-                    String dStr = String.format("%.2f", d);
+                    String dStr = decimalFormat.format(d);
                     textArea2.setText(textArea2.getText() + counter + ") " + dStr + "\n");
                 } catch (StringIndexOutOfBoundsException ex) {
                     textArea2.clear();
@@ -422,8 +426,8 @@ public class Controller {
                 int f = rnd(1, 30);
                 double y = (double) (a * f - c * d) / (a * e - b * d);
                 double x = (double) (c * e - b * f) / (a * e - b * d);
-                String sY = String.format("%.2f", y);
-                String sX = String.format("%.2f", x);
+                String sY = decimalFormat.format(y);
+                String sX = decimalFormat.format(x);
                 int i = rnd(1, 12);
                 if (i < 6) {
                     textArea.setText(textArea.getText() + counter + ") " + a + "x+" + b + "y=" + c + "\n    " + d + "x+" + e + "y=" + f + "\n");
@@ -448,40 +452,43 @@ public class Controller {
                 counter = ++count;
                 count--;
 
-                /* Ввод данных */
                 int n = 3;
                 int m = 3;
-                int[][] A = new int[100][100];
-                int[] b = new int[100];
+                double[][] A = new double[100][100];
+                double[] b = new double[100];
                 for (int i = 0; i < n; i++) {
-                    A[i] = new int[100];
+                    A[i] = new double[100];
                     for (int j = 0; j < m; j++) {
                         A[i][j] = rnd(1, 30);
                     }
                     b[i] = rnd(1, 30);
                 }
-                textArea.setText(textArea.getText() + counter + ") " + A[0][0] + "x₁+" + A[0][1] + "x₂+" + A[0][2] + "x₃=" + b[0] + "\n    "
-                        + A[1][0] + "x₁+" + A[1][1] + "x₂+" + A[1][2] + "x₃=" + b[1] + "\n    "
-                        + A[2][0] + "x₁+" + A[2][1] + "x₂+" + A[2][2] + "x₃=" + b[3] + "\n");
+                textArea.setText(textArea.getText() + counter + ") " + String.format("%.0f", A[0][0]) + "x₁+" + String.format("%.0f", A[0][1]) + "x₂+" + String.format("%.0f", A[0][2]) + "x₃=" + String.format("%.0f", b[0]) + "\n    "
+                        + String.format("%.0f", A[1][0]) + "x₁+" + String.format("%.0f", A[1][1]) + "x₂+" + String.format("%.0f", A[1][2]) + "x₃=" + String.format("%.0f", b[1]) + "\n    "
+                        + String.format("%.0f", A[2][0]) + "x₁+" + String.format("%.0f", A[2][1]) + "x₂+" + String.format("%.0f", A[2][2]) + "x₃=" + String.format("%.0f", b[2]) + "\n");
+
                 /* Метод Гаусса */
                 int N = n;
                 for (int p = 0; p < N; p++) {
+
                     int max = p;
                     for (int i = p + 1; i < N; i++) {
                         if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
                             max = i;
                         }
                     }
-                    int[] temp = A[p];
+                    double[] temp = A[p];
                     A[p] = A[max];
                     A[max] = temp;
                     double t = b[p];
                     b[p] = b[max];
-                    b[max] = (int) t;
+                    b[max] = t;
+
                     if (Math.abs(A[p][p]) <= 1e-10) {
                         System.out.println("NO");
                         return;
                     }
+
                     for (int i = p + 1; i < N; i++) {
                         double alpha = A[i][p] / A[p][p];
                         b[i] -= alpha * b[p];
@@ -502,14 +509,20 @@ public class Controller {
                 }
 
                 /* Вывод результатов */
-                int j = 1;
-                textArea2.setText(textArea2.getText() + counter + ") ");
-                for (int i = 0; i < N; i++) {
-                    String sX = String.format("%.2f", x[i]);
-                    textArea2.setText(textArea2.getText() + "X" + j + "=" + sX + "; ");
-                    j++;
+                if (n < m) {
+
+                } else {
+                    int j = 1;
+                    textArea2.setText(textArea2.getText() + counter + ") ");
+                    for (int i = 0; i < N; i++) {
+                        String sX = decimalFormat.format(x[i]);
+                        ;
+                        textArea2.setText(textArea2.getText() + "X" + j + "=" + sX + "; ");
+                        j++;
+                    }
+                    textArea2.setText(textArea2.getText() + "\n");
                 }
-                textArea2.setText(textArea2.getText() + "\n");
+
             }
         }
     }
@@ -606,8 +619,8 @@ public class Controller {
         if (res == (Math.floor(res))) {
             double x1 = ((-1 * b) + res) / (2 * a);
             double x2 = ((-1 * b) - res) / (2 * a);
-            String fx1 = String.format("%.2f", x1);
-            String fx2 = String.format("%.2f", x2);
+            String fx1 = decimalFormat.format(x1);
+            String fx2 = decimalFormat.format(x2);
             int iter = rnd(1, 2);
             if (iter == 1) {
                 textArea.setText(textArea.getText() + counter + ") " + a + "x²+" + b + "x+" + c + ">0.\n");
@@ -622,7 +635,6 @@ public class Controller {
                 }
             } else if (iter == 2) {
                 textArea.setText(textArea.getText() + counter + ") " + a + "x²+" + b + "x+" + c + "<0.\n");
-
                 if (res > 0) {
                     if (x2 >= x1) {
                         textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx1 + ";" + fx2 + ").\n");
@@ -654,7 +666,7 @@ public class Controller {
                 if (iter == 1) {
                     textArea.setText(textArea.getText() + counter + ") x/(x+" + a + ") < -" + b + "\n");
                     double x2 = ((double) (b * a) / (double) (b + 1));
-                    String x2S = String.format("%.2f", x2);
+                    String x2S = decimalFormat.format(x2);
                     if (-a > -x2)
                         textArea2.setText(textArea2.getText() + counter + ") X∈(-" + x2S + ";" + -a + ").\n");
                     else if (-x2 > -a)
@@ -693,7 +705,7 @@ public class Controller {
                 double diffSpeed = (double) ((1 / v1) - (1 / v2)); // Разница скоростей
                 double secondHulfOfWay = (double) (diffInTime * diffSpeed);
                 double allWay = (double) (v1 + secondHulfOfWay);
-                String strWay = String.format("%.3f", allWay);
+                String strWay = decimalFormat.format(allWay);
                 textArea.setText(textArea.getText() + counter + ")Турист, идущий из деревни на\nжелезнодорожную станцию, пройдя\nза первый час " + String.format("%.0f", v1) + " км, "
                         + "рассчитал, что он\nопоздает к поезду на " + String.format("%.0f", t1) + " мин., если\nбудет двигаться с той же скоростью."
                         + "\nПоэтому остальной путь он проходит со\nскоростью " + String.format("%.0f", v2) + " км/ч и прибывает на\nстанцию за " + String.format("%.0f", t2) + " мин. до отхода поезда."
@@ -723,11 +735,11 @@ public class Controller {
 
                 double ff = (double) ((s / v1) + ((s - p) / v2));
                 double av = (double) (result / ff);
-
+                String res = decimalFormat.format(result);
                 textArea.setText(textArea.getText() + counter + ")Самолет летел сначала со скоростью\n" + String.format("%.0f", v1) + " км/ч. Когда ему осталось пролететь\nна " + String.format("%.0f", p) + " км меньше, чем он пролетел, "
                         + "он\nизменил скорость и стал двигаться со\nскоростью " + String.format("%.0f", v2) + " км/ч. Средняя скорость\nсамолета на всем пути оказалась\nравной " + String.format("%.2f", av) + " км/ч. "
                         + "Какое расстояние\nпролетел самолет?" + "\n");
-                textArea2.setText(textArea2.getText() + counter + ") " + String.format("%.1f", result) + " км.\n");
+                textArea2.setText(textArea2.getText() + counter + ") " + res + " км.\n");
             }
         }
     }
@@ -749,7 +761,7 @@ public class Controller {
                 int v2 = rnd(130, 180);
                 double halfWay = v1 * t;
                 double allTime = t + (halfWay / v2);
-                String allTimeStr = String.format("%.1f", allTime);
+                String allTimeStr = decimalFormat.format(allTime);
                 textArea.setText(textArea.getText() + counter + ")Половину маршрута гоночная\nмашина проехала за " + t + " часа со\nскоростью " + v1 + " км/ч,"
                         + "а остальное\nрасстояние – со скоростью " + v2 + " км/ч."
                         + "\nСколько времени гоночная машина\nпровела в пути?" + "\n");
