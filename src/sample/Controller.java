@@ -555,44 +555,27 @@ public class Controller {
             for (int count = 0; count < Integer.parseInt(countField.getText()); count++) {
                 counter = ++count;
                 count--;
-                int iter = rnd(1, 22);
-                int x = rnd();
-                int a = rnd();
-                int b = rnd();
+                int iter = rnd(1, 4);
+                int x = rnd(1, 15);
+                int a = rnd(1, 15);
+                int b = rnd(1, 15);
+                int c = rnd(1, 15);
                 if (iter == 1) {
-                    int c = rnd();
-                    int e = a * x + b * x + c;
-                    String signB = "", signC = "";
-                    if (b > 0) signB = "+";
-                    else signB = " ";
-                    if (c > 0) signC = "+";
-                    else signC = " ";
-                    textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "x" + signC + c + ">" + e + "\n");
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X>" + x + "\n");
-                } else if (iter == 2) {
-                    int c = a * x + b;
-                    String signB = "";
-                    if (b > 0) signB = "+";
-                    else signB = " ";
-                    textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "<" + c + "\n");
+                    int y = a * x - b;
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x-" + b + "<" + y + "\n");
                     textArea2.setText(textArea2.getText() + counter + ") " + "X < " + x + "\n");
-                } else if (iter == 3) {
-                    int c = rnd();
-                    int e = a * x + b * x + c;
-                    String signB = "", signC = "";
-                    if (b > 0) signB = "+";
-                    else signB = " ";
-                    if (c > 0) signC = "+";
-                    else signC = " ";
-                    textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + "x" + signC + c + "<=" + e + "\n");
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X<=" + x + "\n");
-                } else {
-                    int c = a * x + b;
-                    String signB = "";
-                    if (b > 0) signB = "+";
-                    else signB = " ";
-                    textArea.setText(textArea.getText() + counter + ") " + a + "x" + signB + b + ">=" + c + "\n");
+                } else if (iter == 2) {
+                    int y = a * x + b;
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x+" + b + ">=" + y + "\n");
                     textArea2.setText(textArea2.getText() + counter + ") " + "X >= " + x + "\n");
+                } else if (iter == 3) {
+                    int y = a * x + b * x - c;
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x+" + b + "x-" + c + ">" + y + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X>" + x + "\n");
+                } else if (iter == 4) {
+                    int y = a * x + b * x - c;
+                    textArea.setText(textArea.getText() + counter + ") " + a + "x+" + b + "x-" + c + "<=" + y + "\n");
+                    textArea2.setText(textArea2.getText() + counter + ") " + "X<=" + x + "\n");
                 }
             }
         }
@@ -616,64 +599,37 @@ public class Controller {
     }
 
     private void fotQuadIneq() {
-        int a = rnd();
-        int b = rnd();
-        int c = rnd();
-        String fx1, fx2;
+        int a = rnd(1, 10);
+        int b = rnd(1, 10);
+        int c = rnd(1, 10);
         double res = Math.sqrt(b * b - 4 * a * c);
         if (res == (Math.floor(res))) {
             double x1 = ((-1 * b) + res) / (2 * a);
-            double chislitel = ((-1 * b) + res), znamenatel = (2 * a);
-            if (x1 % 1 == 0) {
-                fx1 = Integer.toString((int) x1);
-            } else {
-                if (length(x1) < 3) {
-                    fx1 = Double.toString(x1);
-                } else {
-                    fx1 = (int) chislitel + "/" + (int) znamenatel;
-                }
-            }
             double x2 = ((-1 * b) - res) / (2 * a);
-            chislitel = ((-1 * b) - res);
-            znamenatel = (2 * a);
-            if (x2 % 1 == 0) {
-                fx2 = Integer.toString((int) x2);
-            } else {
-                if (length(x2) < 3) {
-                    fx2 = Double.toString(x2);
-                } else {
-                    fx2 = (int) chislitel + "/" + (int) znamenatel;
+            String fx1 = String.format("%.2f", x1);
+            String fx2 = String.format("%.2f", x2);
+            int iter = rnd(1, 2);
+            if (iter == 1) {
+                textArea.setText(textArea.getText() + counter + ") " + a + "x²+" + b + "x+" + c + ">0.\n");
+                if (res <= 0) {
+                    textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;+∞).\n");
+                } else if (res >= 0) {
+                    if (x2 >= x1) {
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx2 + ";+∞).\n");
+                    } else if (x1 >= x2) {
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx2 + ")⋃(" + fx1 + ";+∞).\n");
+                    }
                 }
-            }
-            String signB = "", signC = "", znak = "";
-            if (b > 0) signB = "+";
-            else signB = " ";
-            if (c > 0) {
-                signC = "+";
-                znak = "<";
-            } else {
-                signC = " ";
-                znak = ">";
-            }
-            textArea.setText(textArea.getText() + counter + ") " + a + "x²" + signB + b + "x" + signC + c + znak + "0" + "\n");
-            if (res > 0) {
-                if ((x2 > x1) && (znak.equals(">"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx2 + "+∞)" + "\n");
-                } else if ((x2 > x1) && (znak.equals("<"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx1 + ";" + fx2 + ")" + "\n");
-                } else if ((x1 > x2) && (znak.equals(">"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx2 + ")⋃(" + fx1 + "+∞)" + "\n");
-                } else if ((x1 > x2) && (znak.equals("<"))) {
-                    textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx2 + ";" + fx1 + ")" + "\n");
-                }
-            } else if ((res == 0) && (znak.equals(">"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;" + fx1 + ")⋃(" + fx1 + "+∞)" + "\n");
-            } else if ((res == 0) && (znak.equals("<"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n");
-            } else if ((res < 0) && (znak.equals(">"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(-∞;+∞)" + "\n");
-            } else if ((res < 0) && (znak.equals("<"))) {
-                textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n");
+            } else if (iter == 2) {
+                textArea.setText(textArea.getText() + counter + ") " + a + "x²+" + b + "x+" + c + "<0.\n");
+
+                if (res > 0) {
+                    if (x2 >= x1) {
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx1 + ";" + fx2 + ").\n");
+                    } else if (x1 >= x2) {
+                        textArea2.setText(textArea2.getText() + counter + ") " + "X₁=" + fx1 + ", X₂=" + fx2 + "\n    X∈(" + fx2 + ";" + fx1 + ").\n");
+                    }
+                } else if (res <= 0) textArea2.setText(textArea2.getText() + counter + ") X∈ø.\n");
             }
         } else {
             fotQuadIneq();
@@ -694,38 +650,23 @@ public class Controller {
                 count--;
                 int a = rnd(1, 10);
                 int b = rnd(1, 10);
-                int c = rnd(1, 10);
-                int iter = (int) rnd(1, 4);
+                int iter = rnd(1, 2);
                 if (iter == 1) {
                     textArea.setText(textArea.getText() + counter + ") x/(x+" + a + ") < -" + b + "\n");
-                    int x2 = ((b * a) / (b + 1));
+                    double x2 = ((double) (b * a) / (double) (b + 1));
+                    String x2S = String.format("%.2f", x2);
                     if (-a > -x2)
-                        textArea2.setText(textArea2.getText() + counter + ") X∈(" + -x2 + ";" + -a + ")." + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") X∈(-" + x2S + ";" + -a + ").\n");
                     else if (-x2 > -a)
-                        textArea2.setText(textArea2.getText() + counter + ") X∈(" + -a + ";" + -x2 + ")." + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") X∈(" + -a + ";-" + x2S + ").\n");
                 } else if (iter == 2) {
-                    textArea.setText(textArea.getText() + counter + ") x/(x-" + a + ") < " + b + "\n");
-                    int znam = (-b) + 1;
-                    if (znam == 0) {
-                        textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;" + a + ")." + "\n");
+                    textArea.setText(textArea.getText() + counter + ") x(" + a + " - x)/(x-" + b + ") >= 0\n");
+                    if (a == b) {
+                        textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;0]\n");
+                    } else if (a < b) {
+                        textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;0]⋃[" + a + ";" + b + ").\n");
                     } else {
-                        int x2 = Math.abs((b * a) / (znam));
-                        if (a > x2)
-                            textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;" + x2 + ")⋃(" + a + ";+∞)." + "\n");
-                        else if (x2 > a)
-                            textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;" + a + ")⋃(" + x2 + ";+∞)." + "\n");
-                    }
-                } else if (iter > 2) {
-                    textArea.setText(textArea.getText() + counter + ") (x+" + a + ")/(x-" + b + ") < (x+" + c + ")/x" + "\n");
-                    int znam = a - c + b;
-                    if (znam == 0) {
-                        textArea2.setText(textArea2.getText() + counter + ") X∈(0;" + b + ")." + "\n");
-                    } else {
-                        int x2 = (int) -((b * c) / znam);
-                        if (b > x2)
-                            textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;" + x2 + ")⋃(0;" + b + ")." + "\n");
-                        else if (x2 > b)
-                            textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;" + b + ")⋃(0;" + x2 + ")." + "\n");
+                        textArea2.setText(textArea2.getText() + counter + ") X∈(-∞;0]⋃(" + b + ";" + a + "].\n");
                     }
                 }
             }
